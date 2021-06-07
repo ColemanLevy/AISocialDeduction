@@ -1,0 +1,2 @@
+C:\dev\Students\CH17\Coleman.Levy\PPP\AIDeduction\Intermediate\Build\Win64\UE4Editor\Development\AIDeduction\Definitions.AIDeduction.h
+C:\dev\Students\CH17\Coleman.Levy\PPP\AIDeduction\Source\AIDeduction\AIDeduction.h

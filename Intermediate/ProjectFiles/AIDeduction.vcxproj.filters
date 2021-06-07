@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\AIDeduction.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{B16FB0CD-FA56-4725-AE4E-D86D2F3C6FC5}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\AIDeduction.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\AIDeductionEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{CAB5D37D-A4B2-4273-8037-9EA99A063E93}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEditorPerProjectUserSettings.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\AIDeduction">
+      <UniqueIdentifier>{905E9FC1-7349-4733-BB64-0B7CCA83D924}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\AIDeduction\AIDeduction.Build.cs">
+      <Filter>Source\AIDeduction</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\AIDeduction\AIDeduction.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\AIDeduction.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\AIDeductionCharacter.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\AIDeductionCharacter.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\AIDeductionGameMode.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\AIDeductionGameMode.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\CrewMateBase.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\CrewMateBase.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\CrewMateController.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\CrewMateController.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\PickRandomWaypoint.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\PickRandomWaypoint.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\PlayerSpectator.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\PlayerSpectator.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\Waypoint.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\Waypoint.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

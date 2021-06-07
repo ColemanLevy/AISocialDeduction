@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "AIDeduction",
+			"Path": "C:\\dev\\Students\\CH17\\Coleman.Levy\\PPP\\AIDeduction\\Source\\AIDeduction.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "AIDeductionEditor",
+			"Path": "C:\\dev\\Students\\CH17\\Coleman.Levy\\PPP\\AIDeduction\\Source\\AIDeductionEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
