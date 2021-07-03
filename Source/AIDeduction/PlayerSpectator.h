@@ -57,7 +57,7 @@ protected:
 	/// <summary>
 	/// Boolean which indicates if TurnMode is on or not.
 	/// </summary>
-	bool turnMode = false;
+	bool _turnMode = false;
 
 public:	
 	/// <summary>
@@ -85,20 +85,20 @@ public:
 	/// <summary>
 	/// Reference to the GameMode this PlayerSpectator resides in.
 	/// </summary>
-	AAIDeductionGameMode* aiDeductionGameMode;
+	AAIDeductionGameMode* _aiDeductionGameMode;
 	/// <summary>
 	/// Reference to the controller of the PlayerSpectator.
 	/// </summary>
-	APlayerController* controller;
+	APlayerController* _controller;
 	/// <summary>
 	/// Reference to the component which handles input from the player.
 	/// </summary>
-	UInputComponent* inputComponent;
+	UInputComponent* _inputComponent;
 
 	/// <summary>
 	/// Transform used for resetting the camera's position to where it initial spawned.
 	/// </summary>
-	FTransform startingTransform;
+	FTransform _startingTransform;
 
 	/// <summary>
 	/// Struct for holding the position of the player's mouse on the screen.
@@ -107,5 +107,5 @@ public:
 	{
 		float x = 0;
 		float y = 0;
-	} mousePosition;
+	} _mousePosition;
 };

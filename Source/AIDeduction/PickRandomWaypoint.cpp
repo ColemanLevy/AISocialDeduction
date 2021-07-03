@@ -12,14 +12,14 @@
 // Gets random waypoint for the crewmate to move to
 EBTNodeResult::Type UPickRandomWaypoint::ExecuteTask(UBehaviorTreeComponent& ownerComponent, uint8* nodeMemory)
 {
-	ACrewMateController* crewMateController = Cast<ACrewMateController>(ownerComponent.GetAIOwner());
+	ACrewMateController* crewmateController = Cast<ACrewMateController>(ownerComponent.GetAIOwner());
 
-	if (crewMateController)
+	if (crewmateController)
 	{
-		UBlackboardComponent* blackboardComp = crewMateController->GetBlackboardComp();
+		UBlackboardComponent* blackboardComp = crewmateController->GetBlackboardComp();
 
 		// Gets the random waypoint from the game mode
-		blackboardComp->SetValueAsObject("LocationToGo", crewMateController->gameMode->GetRandomWaypoint());
+		blackboardComp->SetValueAsObject("LocationToGo", crewmateController->_aiDeductionGameMode->GetRandomWaypoint());
 
 		return EBTNodeResult::Succeeded;
 	}

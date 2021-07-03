@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\AIDeduction.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{B16FB0CD-FA56-4725-AE4E-D86D2F3C6FC5}</UniqueIdentifier>
+      <UniqueIdentifier>{EFD486C1-FCDA-42DB-98B2-B86B754A0562}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\AIDeduction.Target.cs">
       <Filter>Source</Filter>
@@ -11,8 +11,9 @@
     <None Include="..\..\Source\AIDeductionEditor.Target.cs">
       <Filter>Source</Filter>
     </None>
+    <None Include="..\..\MeleeWeaponsPack.png" />
     <Filter Include="Config">
-      <UniqueIdentifier>{CAB5D37D-A4B2-4273-8037-9EA99A063E93}</UniqueIdentifier>
+      <UniqueIdentifier>{CF382A40-87EA-4EDA-8F45-B684A6F6C093}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -30,7 +31,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\AIDeduction">
-      <UniqueIdentifier>{905E9FC1-7349-4733-BB64-0B7CCA83D924}</UniqueIdentifier>
+      <UniqueIdentifier>{B21F6888-185A-4E2B-A614-825CA7E88C71}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\AIDeduction\AIDeduction.Build.cs">
       <Filter>Source\AIDeduction</Filter>
@@ -53,6 +54,24 @@
     <ClInclude Include="..\..\Source\AIDeduction\AIDeductionGameMode.h">
       <Filter>Source\AIDeduction</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\CheckIfDoneWithTasks.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\CheckIfDoneWithTasks.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\ChooseATarget.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\ChooseATarget.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\CompleteCrewmateTask.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\CompleteCrewmateTask.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\AIDeduction\CrewMateBase.cpp">
       <Filter>Source\AIDeduction</Filter>
     </ClCompile>
@@ -63,6 +82,30 @@
       <Filter>Source\AIDeduction</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\AIDeduction\CrewMateController.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\DecideToKill.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\DecideToKill.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\DecideToMeander.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\DecideToMeander.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\PerformKill.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\PerformKill.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\PickRandomTask.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\PickRandomTask.h">
       <Filter>Source\AIDeduction</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\AIDeduction\PickRandomWaypoint.cpp">
@@ -77,10 +120,38 @@
     <ClInclude Include="..\..\Source\AIDeduction\PlayerSpectator.h">
       <Filter>Source\AIDeduction</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\Room.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\Room.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\StartCrewmateTask.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\StartCrewmateTask.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\TaskBase.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\TaskBase.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\AIDeduction\Waypoint.cpp">
       <Filter>Source\AIDeduction</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\AIDeduction\Waypoint.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\AIDeduction\DeadCrewmate.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\AIDeduction\DeadCrewmate.h">
       <Filter>Source\AIDeduction</Filter>
     </ClInclude>
   </ItemGroup>

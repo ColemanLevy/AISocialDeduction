@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "TaskBase.h"
+#include "CrewMateBase.h"
+
 #include "CrewMateController.generated.h"
 
 /**
@@ -50,38 +53,80 @@ public:
 		void ResetAI();
 
 	/// <summary>
+	/// Function which handles what occurs when a Killer kills the Crewmate this controller manages.
+	/// </summary>
+	void GetKilled();
+
+	/// <summary>
+	/// Grabs the next task for this Crewmate to perform out of its randomly assigned tasks.
+	/// </summary>
+	/// <returns>Returns the task to move to on the map.</returns>
+	AActor* GetNextUnfinishedTask();
+	/// <summary>
+	/// Function that occurs when a Crewmate "completes" a task. Handles incrementing the number of tasks this Crewmate has completed.
+	/// </summary>
+	void TaskCompleted();
+
+	/// <summary>
+	/// Handles adding the seen Crewmate to the list of Crewmates in sight. 
+	/// </summary>
+	/// <param name="crewmate">The seen Crewmate.</param>
+	void CrewmateSeen(ACrewMateBase* crewmate);
+	/// <summary>
+	/// Handles removing the Crewmate that just left vision from the list of Crewmates in sight.
+	/// </summary>
+	/// <param name="crewmate">The Crewmatet that just left vision.</param>
+	void CrewmateUnseen(ACrewMateBase* crewmate);
+
+	/// <summary>
 	/// Getter for the Blackboard component
 	/// </summary>
 	/// <returns>The blackboard component attach to this crewmate controller.</returns>
-	FORCEINLINE UBlackboardComponent* GetBlackboardComp() const { return blackboardComp; }
+	FORCEINLINE UBlackboardComponent* GetBlackboardComp() const { return _blackboardComp; }
 
 	UPROPERTY(VisibleAnywhere, Category = "AI")
 		/// <summary>
 		/// The behavior tree this crewmate is controlled by.
 		/// </summary>
-		class UBehaviorTreeComponent* behaviorComp;
+		class UBehaviorTreeComponent* _behaviorComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "AI")
 		/// <summary>
 		/// The blackboard component attached to this crewmate.
 		/// </summary>
-		class UBlackboardComponent* blackboardComp;
+		class UBlackboardComponent* _blackboardComp;
 
 	UPROPERTY(EditAnywhere, Category = "AI")
 		/// <summary>
 		/// The crewmate this controller is possessing
 		/// </summary>
-		class ACrewMateBase* crewmateNPC;
+		class ACrewMateBase* _crewmateNPC;
 
 	UPROPERTY(EditAnywhere, Category = "AI")
 		/// <summary>
 		/// The initial transform of the crewmate this controller is possessing.
 		/// </summary>
-		FTransform startingTransform;
+		FTransform _startingTransform;
 
 	UPROPERTY(EditAnywhere, Category = "References")
 		/// <summary>
 		/// The gamemode this controller resides in.
 		/// </summary>
-		class AAIDeductionGameMode* gameMode;
+		class AAIDeductionGameMode* _aiDeductionGameMode;
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+		/// <summary>
+		/// The list of tasks to perform.
+		/// </summary>
+		TArray<ATaskBase*> _tasks;
+
+	/// <summary>
+	/// The list of Crewmates this Crewmate can currently see.
+	/// </summary>
+	TArray<ACrewMateBase*> _crewmatesInSight;
+
+	/// <summary>
+	/// The number of tasks this Crewmate has completed.
+	/// </summary>
+	int _numberOfCompletedTasks = 0;
 };

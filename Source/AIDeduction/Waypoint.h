@@ -24,5 +24,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, Category = "Map")
+		/// <summary>
+		/// The name of the room this waypoint resides in.
+		/// </summary>
 		FString roomName;
 };
