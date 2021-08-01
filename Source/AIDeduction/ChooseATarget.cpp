@@ -23,7 +23,7 @@ EBTNodeResult::Type UChooseATarget::ExecuteTask(UBehaviorTreeComponent& ownerCom
 		while (!target && numberOfCrewmatesChecked < numCrewmatesInSight)
 		{
 			potentialTarget = crewmateController->_crewmatesInSight[numberOfCrewmatesChecked];
-			if (!potentialTarget->_isKiller)
+			if (!potentialTarget->_isKiller && potentialTarget->_isAlive)
 			{
 				target = potentialTarget;
 			}

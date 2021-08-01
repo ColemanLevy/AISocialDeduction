@@ -17,7 +17,7 @@ EBTNodeResult::Type UCompleteCrewmateTask::ExecuteTask(UBehaviorTreeComponent& o
 		crewmateController->_crewmateNPC->ResetTaskProgress();
 
 		// Check for an Innocent victory whenever a task is completed
-		crewmateController->_aiDeductionGameMode->CheckTaskVictory();
+		crewmateController->_aiDeductionGameMode->CheckInnocentVictory(true);
 
 		return EBTNodeResult::Succeeded;
 	}

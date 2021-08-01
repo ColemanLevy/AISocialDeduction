@@ -23,7 +23,8 @@ enum class CrewmateColorEnum : uint8
 	Purple,
 	Pink,
 	Gray,
-	Brown
+	Brown,
+	None
 };
 
 USTRUCT(BlueprintType)
@@ -44,19 +45,19 @@ struct FCrewmateInformation
 		/// <summary>
 		/// The color (name) of the crewmate observed
 		/// </summary>
-		CrewmateColorEnum crewmateName;
+		CrewmateColorEnum crewmateName = CrewmateColorEnum::Red;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Knowledge")
 		/// <summary>
 		/// The room the crewmate was seen in
 		/// </summary>
-		RoomEnum roomIn;
+		RoomEnum roomIn = RoomEnum::None;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Knowledge")
 		/// <summary>
 		/// The room the crewmate was seen leaving if applicable
 		/// </summary>
-		RoomEnum roomOut;
+		RoomEnum roomOut = RoomEnum::None;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Knowledge")
 		/// <summary>
@@ -111,7 +112,7 @@ public:
 		/// </summary>
 		void Revive();
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		/// <summary>
 		/// Function for being killed
 		/// </summary>
@@ -187,6 +188,15 @@ public:
 		/// <returns>The crewmate movement information being sent out</returns>
 		const FCrewmateInformation& GetSeen();
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void Eject();
+
+	UFUNCTION(BlueprintCallable)
+		void FinishEject();
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void ResetMesh();
+
 	UPROPERTY(EditAnywhere, Category = "AI")
 		/// <summary>
 		/// The behavior tree controlling the crewmates' actions
@@ -199,10 +209,11 @@ public:
 		/// </summary>
 		class AAIDeductionGameMode* _aiDeductionGameMode;
 
-	/// <summary>
-	/// The Crewmate Controller that possesses this crewmate
-	/// </summary>
-	class ACrewMateController* _crewmateController;
+	UPROPERTY(BlueprintReadOnly, Category = "Reference")
+		/// <summary>
+		/// The Crewmate Controller that possesses this crewmate
+		/// </summary>
+		class ACrewMateController* _crewmateController;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
 		/// <summary>
@@ -222,6 +233,9 @@ public:
 		/// </summary>
 		RoomEnum _currentRoom;
 
+	UPROPERTY()
+		FCrewmateInformation _victimInformation;
+
 	UPROPERTY(BlueprintReadOnly)
 		/// <summary>
 		/// The current movement information that this crewmate has for recording its position in the map
@@ -239,4 +253,16 @@ public:
 		/// The number of memories that have been forgotten. Used to limit the number of memories that can be forgotten.
 		/// </summary>
 		int _totalForgottenMemories = 0;
+
+	UPROPERTY(BlueprintReadWrite, Category = "AI")
+		bool _bodyInSight = false;
+
+	UPROPERTY(BlueprintReadWrite, Category = "AI")
+		AActor* _deadBody = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, Category = "AI")
+		bool _isAlive = false;
+
+	UPROPERTY(BlueprintReadWrite, Category = "AI")
+		bool _ejected = false;
 };

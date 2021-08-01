@@ -6,6 +6,7 @@
 #include "AIController.h"
 #include "TaskBase.h"
 #include "CrewMateBase.h"
+#include "Room.h"
 
 #include "CrewMateController.generated.h"
 
@@ -52,6 +53,9 @@ public:
 		/// </summary>
 		void ResetAI();
 
+	void CrewmateDiscussionSetUp();
+	void CrewmateDiscussionOver();
+
 	/// <summary>
 	/// Function which handles what occurs when a Killer kills the Crewmate this controller manages.
 	/// </summary>
@@ -78,6 +82,12 @@ public:
 	/// <param name="crewmate">The Crewmatet that just left vision.</param>
 	void CrewmateUnseen(ACrewMateBase* crewmate);
 
+	UFUNCTION(BlueprintCallable, Category = "Discussion")
+		FCrewmateInformation RememberRoom(RoomEnum room);
+
+	UFUNCTION(BlueprintCallable, Category = "Discussion")
+		FCrewmateInformation RememberCrewmate(CrewmateColorEnum crewmateName);
+
 	/// <summary>
 	/// Getter for the Blackboard component
 	/// </summary>
@@ -96,13 +106,13 @@ public:
 		/// </summary>
 		class UBlackboardComponent* _blackboardComp;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
 		/// <summary>
 		/// The crewmate this controller is possessing
 		/// </summary>
 		class ACrewMateBase* _crewmateNPC;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
 		/// <summary>
 		/// The initial transform of the crewmate this controller is possessing.
 		/// </summary>

@@ -45,19 +45,21 @@ public:
 	/// <returns>One of the waypoints in the scene.</returns>
 	AActor* GetRandomWaypoint();
 
-	/// <summary>
-	/// Function for checking if the innocents have compeleted enough tasks to win the simulation.
-	/// </summary>
-	void CheckTaskVictory();
+	UFUNCTION(BlueprintCallable)
+		/// <summary>
+		/// Function for checking if the innocents have compeleted enough tasks to win the simulation.
+		/// </summary>
+		void CheckInnocentVictory(bool taskCompleted);
 	/// <summary>
 	/// Function for enacting and indicating that the inoccents have won the simulation.
 	/// </summary>
-	void TaskVictory();
+	void InnocentVictory();
 
-	/// <summary>
-	/// Function for checking if the killers have killed enough innocents to win the simulation.
-	/// </summary>
-	void CheckKillerVictory();
+	UFUNCTION(BlueprintCallable)
+		/// <summary>
+		/// Function for checking if the killers have killed enough innocents to win the simulation.
+		/// </summary>
+		void CheckKillerVictory();
 	/// <summary>
 	/// Function for enacting and indicating that the innocents have won the simulation.
 	/// </summary>
@@ -76,6 +78,9 @@ public:
 	/// Function for grabbing the previous Crewmate in the list of Crewmates and displaying their knowledge.
 	/// </summary>
 	void ObservePreviousCrewmate();
+
+	UFUNCTION(BlueprintCallable)
+		ACrewMateBase* RetrieveCrewmate(CrewmateColorEnum crewmateName);
 
 	UFUNCTION(BlueprintImplementableEvent)
 		/// <summary>
@@ -113,6 +118,24 @@ public:
 		/// Function to return all of the crewmates and the player camera to their initial positions, and wipe all of the crewmates memories.
 		/// </summary>
 		void ResetGame();
+
+	UFUNCTION()
+		void StartVotingScene(FCrewmateInformation victimInformation, CrewmateColorEnum bodyFinder);
+
+	UFUNCTION(BlueprintCallable)
+		void EndVotingScene();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void VotingSceneLoop();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void DiscussionSceneLoop();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void EjectionScene(ACrewMateBase* crewmate);
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+		void EjectionSceneFinished(ACrewMateBase* crewmate);
 
 	UFUNCTION(BlueprintCallable)
 		/// <summary>
@@ -171,7 +194,7 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "UI")
 		/// <summary>
-		/// Reference to the victory screen screen UI.
+		/// Reference to the victory screen UI.
 		/// </summary>
 		UUserWidget* _victoryScreen;
 
@@ -181,11 +204,32 @@ public:
 		/// </summary>
 		TSubclassOf<UUserWidget> _victoryScreenClass;
 
-	UPROPERTY(EditAnywhere, Category = "AI")
+	UPROPERTY(BlueprintReadOnly, Category = "UI")
+		/// <summary>
+		/// Reference to the voting screen UI.
+		/// </summary>
+		UUserWidget* _votingScreen;
+
+	UPROPERTY(EditAnywhere, Category = "UI")
+		/// <summary>
+		/// The class type of the voting screen, used to indicate what type of UI should be created for the voting screen.
+		/// </summary>
+		TSubclassOf<UUserWidget> _votingScreenClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
 		/// <summary>
 		/// List of all the crewmates in the game.
 		/// </summary>
 		TArray<ACrewMateController*> _crewMates;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
+		TArray<AActor*> _deadBodies;
+
+	UPROPERTY(BlueprintReadWrite)
+		FCrewmateInformation _victimInformation;
+
+	UPROPERTY(BlueprintReadWrite)
+		CrewmateColorEnum _bodyFinder;
 
 	UPROPERTY(BlueprintReadOnly)
 		/// <summary>
@@ -198,19 +242,22 @@ public:
 		/// </summary>
 		int _totalNumberOfCompletedTasks = 0;
 
-	/// <summary>
-	/// The number of Killers in a round of simulation.
-	/// </summary>
-	int _numberOfKillers = 0;
+	UPROPERTY(BlueprintReadWrite)
+		/// <summary>
+		/// The number of Killers in a round of simulation.
+		/// </summary>
+		int _numberOfKillers = 0;
+
 	/// <summary>
 	/// The number of crewmates still alive in the simulation round.
 	/// </summary>
 	int _numberOfAliveCrewmates = 0;
 
-	/// <summary>
-	/// Reference to the PlayerSpectator, which is the pawn the player has control of in the game.
-	/// </summary>
-	class APlayerSpectator* _playerSpectator;
+	UPROPERTY(BlueprintReadOnly)
+		/// <summary>
+		/// Reference to the PlayerSpectator, which is the pawn the player has control of in the game.
+		/// </summary>
+		class APlayerSpectator* _playerSpectator;
 
 	UPROPERTY(BlueprintReadOnly)
 		/// <summary>
@@ -223,6 +270,9 @@ public:
 		/// Boolean to indicate a round of the simulation is paused.
 		/// </summary>
 		bool _gamePaused = false;
+
+	UPROPERTY(BlueprintReadOnly)
+		bool _votingSceneOngoing = false;
 
 	UPROPERTY(BlueprintReadOnly)
 		/// <summary>
@@ -261,6 +311,9 @@ public:
 		int _chanceToKill = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+		int _chanceToDoTask = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 		/// <summary>
 		/// The chance a Crewmate will forget something they've observed every "AttemptToForget" tick
 		/// </summary>
@@ -271,4 +324,19 @@ public:
 		///	Number of tasks given to each Innocent to perform upon starting a game.	
 		/// </summary>
 		int _numberOfTasksToAssign = 1;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Discussion")
+		int _lastTimeSeenAlive = 0;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Discussion")
+		int _timeFrame = 20;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Discussion")
+		TMap<CrewmateColorEnum, float> _suspects;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Discussion")
+		AActor* _ejectionSpawnPoint = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Discussion")
+		AActor* _ejectionEndPoint = nullptr;
 };

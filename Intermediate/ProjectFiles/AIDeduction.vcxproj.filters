@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\AIDeduction.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{EFD486C1-FCDA-42DB-98B2-B86B754A0562}</UniqueIdentifier>
+      <UniqueIdentifier>{782027D7-C97F-4469-900F-F8CB85F4277C}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\AIDeduction.Target.cs">
       <Filter>Source</Filter>
@@ -13,7 +13,7 @@
     </None>
     <None Include="..\..\MeleeWeaponsPack.png" />
     <Filter Include="Config">
-      <UniqueIdentifier>{CF382A40-87EA-4EDA-8F45-B684A6F6C093}</UniqueIdentifier>
+      <UniqueIdentifier>{5B20B468-F090-401D-91E1-C2B76BBBD011}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -31,7 +31,7 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\AIDeduction">
-      <UniqueIdentifier>{B21F6888-185A-4E2B-A614-825CA7E88C71}</UniqueIdentifier>
+      <UniqueIdentifier>{B2A53CE6-EDED-43D9-B0D9-46360D0CEBE3}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\AIDeduction\AIDeduction.Build.cs">
       <Filter>Source\AIDeduction</Filter>
@@ -52,6 +52,12 @@
       <Filter>Source\AIDeduction</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\AIDeduction\AIDeductionGameMode.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\CheckIfDeadBodyInSight.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\CheckIfDeadBodyInSight.h">
       <Filter>Source\AIDeduction</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\AIDeduction\CheckIfDoneWithTasks.cpp">
@@ -84,6 +90,12 @@
     <ClInclude Include="..\..\Source\AIDeduction\CrewMateController.h">
       <Filter>Source\AIDeduction</Filter>
     </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\DeadCrewmate.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\DeadCrewmate.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
     <ClCompile Include="..\..\Source\AIDeduction\DecideToKill.cpp">
       <Filter>Source\AIDeduction</Filter>
     </ClCompile>
@@ -94,6 +106,12 @@
       <Filter>Source\AIDeduction</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\AIDeduction\DecideToMeander.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\AIDeduction\GetBodyLocation.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\AIDeduction\GetBodyLocation.h">
       <Filter>Source\AIDeduction</Filter>
     </ClInclude>
     <ClCompile Include="..\..\Source\AIDeduction\PerformKill.cpp">
@@ -146,12 +164,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\AIDeduction\DeadCrewmate.cpp">
+    <ClCompile Include="..\..\Source\AIDeduction\StartVotingScene.cpp">
+      <Filter>Source\AIDeduction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\AIDeduction\DecideToDoTask.cpp">
       <Filter>Source\AIDeduction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\AIDeduction\DeadCrewmate.h">
+    <ClInclude Include="..\..\Source\AIDeduction\StartVotingScene.h">
+      <Filter>Source\AIDeduction</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AIDeduction\DecideToDoTask.h">
       <Filter>Source\AIDeduction</Filter>
     </ClInclude>
   </ItemGroup>

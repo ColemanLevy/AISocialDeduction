@@ -79,6 +79,36 @@ void ACrewMateController::ResetAI()
 	_crewmateNPC->_crewmateInformation.roomOut = RoomEnum::None;
 }
 
+void ACrewMateController::CrewmateDiscussionSetUp()
+{
+	_behaviorComp->StopTree();
+
+	if (_crewmateNPC->_isAlive)
+	{
+		_crewmateNPC->ResetPerception();
+		_crewmatesInSight.Empty();
+	}
+
+	_crewmateNPC->SetActorTransform(_startingTransform);
+
+	_crewmateNPC->ResetTaskProgress();
+
+	_crewmateNPC->_crewmateInformation.roomIn = RoomEnum::Cafeteria;
+	_crewmateNPC->_crewmateInformation.roomOut = RoomEnum::None;
+
+	_crewmateNPC->_deadBody = nullptr;
+	_crewmateNPC->_bodyInSight = false;
+}
+
+void ACrewMateController::CrewmateDiscussionOver()
+{
+	if (_crewmateNPC->_isAlive)
+	{
+		_crewmateNPC->StartPerception();
+	}
+	_behaviorComp->StartTree(*(_crewmateNPC->_behaviorTree));
+}
+
 // Function which handles what occurs when a Killer kills the Crewmate this controller manages.
 void ACrewMateController::GetKilled()
 {
@@ -114,4 +144,50 @@ void ACrewMateController::CrewmateSeen(ACrewMateBase* crewmate)
 void ACrewMateController::CrewmateUnseen(ACrewMateBase* crewmate)
 {
 	_crewmatesInSight.Remove(crewmate);
+}
+
+FCrewmateInformation ACrewMateController::RememberRoom(RoomEnum room)
+{
+	int minTimeFrame = _aiDeductionGameMode->_lastTimeSeenAlive - _aiDeductionGameMode->_timeFrame;
+	int maxTimeFrame = _aiDeductionGameMode->_lastTimeSeenAlive + _aiDeductionGameMode->_timeFrame;
+
+	FCrewmateInformation currentInformation;
+
+	for (int i = 0; i < _crewmateNPC->_observedKnowledge.Num(); ++i)
+	{
+		currentInformation = _crewmateNPC->_observedKnowledge[i];
+
+		if (currentInformation.simulationTime >= minTimeFrame && currentInformation.simulationTime <= maxTimeFrame)
+		{
+			if ((currentInformation.roomIn == room || currentInformation.roomOut == room) && !currentInformation.forgotten
+				&& currentInformation.crewmateName != _aiDeductionGameMode->_victimInformation.crewmateName
+				&& (!_crewmateNPC->_isKiller || !_aiDeductionGameMode->RetrieveCrewmate(currentInformation.crewmateName)->_isKiller))
+			{
+				if (_aiDeductionGameMode->RetrieveCrewmate(currentInformation.crewmateName)->_isAlive)
+				{
+					return currentInformation;
+				}
+			}
+		}
+	}
+
+	return FCrewmateInformation();
+}
+
+FCrewmateInformation ACrewMateController::RememberCrewmate(CrewmateColorEnum crewmateName)
+{
+	FCrewmateInformation currentInformation;
+
+	for (int i = 0; i < _crewmateNPC->_observedKnowledge.Num(); ++i)
+	{
+		currentInformation = _crewmateNPC->_observedKnowledge[i];
+
+		if (currentInformation.crewmateName == crewmateName && !currentInformation.forgotten 
+			&& (!_crewmateNPC->_isKiller || currentInformation.roomIn != _aiDeductionGameMode->_victimInformation.roomIn))
+		{
+			return _crewmateNPC->_observedKnowledge[i];
+		}
+	}
+
+	return FCrewmateInformation();
 }

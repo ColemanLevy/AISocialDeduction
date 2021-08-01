@@ -43,6 +43,11 @@ void AAIDeductionGameMode::BeginPlay()
 	_victoryScreen = CreateWidget(UGameplayStatics::GetPlayerController(GetWorld(), 0), _victoryScreenClass, TEXT("VictoryScreen"));
 	_victoryScreen->AddToViewport();
 	_victoryScreen->SetVisibility(ESlateVisibility::Collapsed);
+
+	// Create the victory screen
+	_votingScreen = CreateWidget(UGameplayStatics::GetPlayerController(GetWorld(), 0), _votingScreenClass, TEXT("VotingScreen"));
+	_votingScreen->AddToViewport();
+	_votingScreen->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 // Provides a random waypoint for use by the crewmates' meandering
@@ -54,18 +59,21 @@ AActor* AAIDeductionGameMode::GetRandomWaypoint()
 }
 
 // Check if the innocents have completed all their tasks when a task is completed
-void AAIDeductionGameMode::CheckTaskVictory()
+void AAIDeductionGameMode::CheckInnocentVictory(bool taskCompleted)
 {
-	++_totalNumberOfCompletedTasks;
-
-	if (_totalNumberOfCompletedTasks >= _totalNumberOfTasks)
+	if (taskCompleted)
 	{
-		TaskVictory();
+		++_totalNumberOfCompletedTasks;
+	}
+
+	if (_totalNumberOfCompletedTasks >= _totalNumberOfTasks || _numberOfKillers <= 0)
+	{
+		InnocentVictory();
 	}
 }
 
 // Enact the Innocent Victory by pausing the game and showing the victory screen
-void AAIDeductionGameMode::TaskVictory()
+void AAIDeductionGameMode::InnocentVictory()
 {
 	_observingCrewmate = nullptr;
 	_victoryReached = true;
@@ -99,7 +107,7 @@ void AAIDeductionGameMode::KillerVictory()
 
 void AAIDeductionGameMode::ShowHideKnowledge()
 {
-	if (_gameStarted && !_victoryReached)
+	if (_gameStarted && !_victoryReached && !_votingSceneOngoing)
 	{
 		if (_observingCrewmate)
 		{
@@ -115,7 +123,7 @@ void AAIDeductionGameMode::ShowHideKnowledge()
 
 void AAIDeductionGameMode::ObserveNextCrewmate()
 {
-	if (_gameStarted && !_victoryReached)
+	if (_gameStarted && !_victoryReached && !_votingSceneOngoing)
 	{
 		if (_observingCrewmateNum >= (_crewMates.Num() - 1))
 		{
@@ -134,7 +142,7 @@ void AAIDeductionGameMode::ObserveNextCrewmate()
 
 void AAIDeductionGameMode::ObservePreviousCrewmate()
 {
-	if (_gameStarted && !_victoryReached)
+	if (_gameStarted && !_victoryReached && !_votingSceneOngoing)
 	{
 		if (_observingCrewmateNum <= 0)
 		{
@@ -149,6 +157,19 @@ void AAIDeductionGameMode::ObservePreviousCrewmate()
 
 		ReloadKnowledgeList();
 	}
+}
+
+ACrewMateBase* AAIDeductionGameMode::RetrieveCrewmate(CrewmateColorEnum crewmateName)
+{
+	for (ACrewMateController* crewmate : _crewMates)
+	{
+		if (crewmate->_crewmateNPC->_name == crewmateName)
+		{
+			return crewmate->_crewmateNPC;
+		}
+	}
+
+	return nullptr;
 }
 
 // Indicates to all the crewmates and the player controller that the simulation has begun.
@@ -204,44 +225,94 @@ void AAIDeductionGameMode::PauseButton()
 // Pause the game by pausing the logic of all of the crewmates
 void AAIDeductionGameMode::PauseGame()
 {
-	for (ACrewMateController* crewMate : _crewMates)
+	if (!_gamePaused)
 	{
-		crewMate->_behaviorComp->PauseLogic(TEXT("Game was paused."));
-		crewMate->_crewmateNPC->Pause();
-	}
+		for (ACrewMateController* crewMate : _crewMates)
+		{
+			crewMate->_behaviorComp->PauseLogic(TEXT("Game was paused."));
+			crewMate->_crewmateNPC->Pause();
+		}
 
-	_gamePaused = true;
+		_gamePaused = true;
+	}
 }
 
 // Resume the game by resuming the logic of all the crewmates
 void AAIDeductionGameMode::ResumeGame()
 {
-	for (ACrewMateController* crewMate : _crewMates)
+	if (_gamePaused)
 	{
-		crewMate->_behaviorComp->ResumeLogic(TEXT("Game was resumed."));
-		crewMate->_crewmateNPC->Resume();
-	}
+		for (ACrewMateController* crewMate : _crewMates)
+		{
+			crewMate->_behaviorComp->ResumeLogic(TEXT("Game was resumed."));
+			crewMate->_crewmateNPC->Resume();
+		}
 
-	_gamePaused = false;
+		_gamePaused = false;
+	}
 }
 
 // Indicates to all the crewmates and the player controller that the simulation is done and they should all
 // reset to initial positions and memory.
 void AAIDeductionGameMode::ResetGame()
 {
+	if (!_votingSceneOngoing)
+	{
+		ResumeGame();
+
+		for (ACrewMateController* crewMate : _crewMates)
+		{
+			crewMate->ResetAI();
+		}
+
+		_observingCrewmate = nullptr;
+
+		_playerSpectator->ResetTransform();
+
+		_mainMenu->SetVisibility(ESlateVisibility::Visible);
+
+		_gameStarted = false;
+		_victoryReached = false;
+	}
+}
+
+void AAIDeductionGameMode::StartVotingScene(FCrewmateInformation victimInformation, CrewmateColorEnum bodyFinder)
+{
 	for (ACrewMateController* crewMate : _crewMates)
 	{
-		crewMate->ResetAI();
+		crewMate->CrewmateDiscussionSetUp();
 	}
 
+	for (AActor* body : _deadBodies)
+	{
+		body->Destroy();
+	}
+
+	_deadBodies.Empty();
+
+	_victimInformation = victimInformation;
+	_bodyFinder = bodyFinder;
+
+	_votingScreen->SetVisibility(ESlateVisibility::Visible);
+
 	_observingCrewmate = nullptr;
+	_votingSceneOngoing = true;
 
-	_playerSpectator->ResetTransform();
+	DiscussionSceneLoop();
+}
 
-	_mainMenu->SetVisibility(ESlateVisibility::Visible);
+void AAIDeductionGameMode::EndVotingScene()
+{
+	for (ACrewMateController* crewMate : _crewMates)
+	{
+		crewMate->CrewmateDiscussionOver();
+	}
 
-	_gameStarted = false;
-	_victoryReached = false;
+	_lastTimeSeenAlive = 0;
+	_suspects.Empty();
+
+	_votingScreen->SetVisibility(ESlateVisibility::Collapsed);
+	_votingSceneOngoing = false;
 }
 
 // Sets the reference to the player-controlled pawn

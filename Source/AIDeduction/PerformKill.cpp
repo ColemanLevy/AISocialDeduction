@@ -32,7 +32,7 @@ EBTNodeResult::Type UPerformKill::ExecuteTask(UBehaviorTreeComponent& ownerCompo
 
 			ACrewMateBase* targetCrewmate = Cast<ACrewMateBase>(blackboardComp->GetValueAsObject(FName("LocationToGo")));
 
-			if (targetCrewmate)
+			if (targetCrewmate && targetCrewmate->_isAlive)
 			{
 				targetCrewmate->_crewmateController->GetKilled();
 

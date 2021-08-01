@@ -61,9 +61,14 @@ void ACrewMateBase::OnSeenCrewmateUpdate(AActor* crewmate, bool sensed)
 
 	ADeadCrewmate* deadCrewmate = Cast<ADeadCrewmate>(crewmate);
 
-	if (deadCrewmate)
+	if (deadCrewmate && _isAlive && !_isKiller)
 	{
-		deadCrewmate->GetSeen();
+		_crewmateController->_behaviorComp->StopTree();
+		_bodyInSight = true;
+		_victimInformation = deadCrewmate->GetSeen();
+
+		_deadBody = deadCrewmate;
+		_crewmateController->_behaviorComp->StartTree(*_behaviorTree);
 	}
 }
 
@@ -148,4 +153,11 @@ const FCrewmateInformation& ACrewMateBase::GetSeen()
 	_crewmateInformation.simulationTime = int(truncf(GetGameTimeSinceCreation() - _aiDeductionGameMode->_gameStartTime));
 
 	return _crewmateInformation;
+}
+
+void ACrewMateBase::FinishEject()
+{
+	_ejected = false;
+	SetActorTransform(_crewmateController->_startingTransform);
+	ResetMesh();
 }

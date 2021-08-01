@@ -2,6 +2,7 @@
 
 
 #include "DeadCrewmate.h"
+#include "AIDeductionGameMode.h"
 
 // Sets default values
 ADeadCrewmate::ADeadCrewmate()
@@ -16,6 +17,7 @@ void ADeadCrewmate::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Cast<AAIDeductionGameMode>(GetWorld()->GetAuthGameMode())->_deadBodies.Add(this);
 }
 
 // Called every frame
@@ -23,5 +25,10 @@ void ADeadCrewmate::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+FCrewmateInformation ADeadCrewmate::GetSeen()
+{
+	return _deathInformation;
 }
 

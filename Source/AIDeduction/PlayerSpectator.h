@@ -72,10 +72,14 @@ public:
 	/// <param name="PlayerInputComponent"></param>
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	/// <summary>
-	/// Function which brings the camera back to its initial transfrom in the map. Used on re-entering the main menu.
-	/// </summary>
-	void ResetTransform();
+	UFUNCTION(BlueprintCallable)
+		/// <summary>
+		/// Function which brings the camera back to its initial transfrom in the map. Used on re-entering the main menu.
+		/// </summary>
+		void ResetTransform();
+
+	UFUNCTION(BlueprintCallable)
+		void EjectionTransform();
 
 	/// <summary>
 	/// Function to deactivate "TurnMode", which will cause the mouse to be revealed and stop allowing the player's camera to move.
@@ -99,6 +103,9 @@ public:
 	/// Transform used for resetting the camera's position to where it initial spawned.
 	/// </summary>
 	FTransform _startingTransform;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Map")
+		FTransform _ejectionSpectatingTransform;
 
 	/// <summary>
 	/// Struct for holding the position of the player's mouse on the screen.

@@ -28,12 +28,12 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void Initialize(CrewmateColorEnum inputColor, FCrewmateInformation inputInformation);
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-		void GetSeen();
+	UFUNCTION(BlueprintCallable)
+		FCrewmateInformation GetSeen();
 
 	UPROPERTY(BlueprintReadWrite, Category = "Color")
-		CrewmateColorEnum color;
+		CrewmateColorEnum _color;
 
 	UPROPERTY(BlueprintReadWrite, Category = "Knowledge")
-		FCrewmateInformation deathInformation;
+		FCrewmateInformation _deathInformation;
 };

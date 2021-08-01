@@ -41,7 +41,7 @@ void APlayerSpectator::BeginPlay()
 void APlayerSpectator::MoveForward(float distance)
 {
 	// Only move the player if the simulation has begun
-	if ((Controller) && (distance != 0.0f) && _aiDeductionGameMode->_gameStarted)
+	if ((Controller) && (distance != 0.0f) && _aiDeductionGameMode->_gameStarted && !_aiDeductionGameMode->_votingSceneOngoing)
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
@@ -53,7 +53,7 @@ void APlayerSpectator::MoveForward(float distance)
 void APlayerSpectator::MoveRight(float distance)
 {
 	// Only move the player if the simulation has begun
-	if ((Controller) && (distance != 0.0f) && _aiDeductionGameMode->_gameStarted)
+	if ((Controller) && (distance != 0.0f) && _aiDeductionGameMode->_gameStarted && !_aiDeductionGameMode->_votingSceneOngoing)
 	{
 		const FRotator Rotation = Controller->GetControlRotation();
 		const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
@@ -67,7 +67,7 @@ void APlayerSpectator::TurnUp(float radians)
 	// Ony perform the turning if the TurnMode is on and the simulation has begun
 	if (_turnMode)
 	{
-		if ((Controller) && (radians != 0.0f) && _aiDeductionGameMode->_gameStarted)
+		if ((Controller) && (radians != 0.0f) && _aiDeductionGameMode->_gameStarted && !_aiDeductionGameMode->_votingSceneOngoing)
 		{
 			AddControllerPitchInput(radians);
 		}
@@ -80,7 +80,7 @@ void APlayerSpectator::TurnRight(float radians)
 	// Ony perform the turning if the TurnMode is on and the simulation has begun
 	if (_turnMode)
 	{
-		if ((Controller) && (radians != 0.0f) && _aiDeductionGameMode->_gameStarted)
+		if ((Controller) && (radians != 0.0f) && _aiDeductionGameMode->_gameStarted && !_aiDeductionGameMode->_votingSceneOngoing)
 		{
 			AddControllerYawInput(radians);
 		}
@@ -90,7 +90,7 @@ void APlayerSpectator::TurnRight(float radians)
 // Turns on TurnMode, which allows for turning of the player camera
 void APlayerSpectator::TurnModeOn()
 {
-	if (_controller && _aiDeductionGameMode->_gameStarted)
+	if (_controller && _aiDeductionGameMode->_gameStarted && !_aiDeductionGameMode->_votingSceneOngoing)
 	{
 		// Hides the mouse during the turning of the camera and sets its position to be locked at
 		_turnMode = true;
@@ -147,4 +147,10 @@ void APlayerSpectator::ResetTransform()
 {
 	_controller->SetControlRotation(FRotator(0.0f, 179.9f, 0.0f));
 	SetActorTransform(_startingTransform);
+}
+
+void APlayerSpectator::EjectionTransform()
+{
+	_controller->SetControlRotation(FRotator(0.0f, 179.9f, 0.0f));
+	SetActorTransform(_ejectionSpectatingTransform);
 }
